@@ -39,8 +39,8 @@ contextBridge.exposeInMainWorld('spelium', {
   // =============================================
   game: {
     /** Oyunu başlat */
-    launch: (playerName, sessionToken) =>
-      ipcRenderer.invoke('game:launch', { playerName, sessionToken }),
+    launch: (username, token, ram) =>
+      ipcRenderer.invoke('game:launch', { username, token, ram }),
 
     /** Oyun durumu güncellemelerini dinle */
     onStatus: (callback) => {

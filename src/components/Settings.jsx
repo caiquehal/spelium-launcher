@@ -30,8 +30,15 @@ function Settings({ open, onClose }) {
           const info = await window.spelium.app.getSystemInfo();
           const total = parseFloat(info.totalRam);
           setTotalRam(Math.floor(total));
-          const allocated = parseFloat(info.allocatedRam);
-          setAllocatedRam(Math.round(allocated));
+          
+          // localStorage'dan oku veya varsayılan (sistemin %40'ı civarı)
+          const savedRam = localStorage.getItem('spelium_ram');
+          if (savedRam) {
+            setAllocatedRam(parseInt(savedRam, 10));
+          } else {
+            const defaultRam = Math.floor(total * 0.4);
+            setAllocatedRam(Math.max(defaultRam, 2));
+          }
         }
       } catch { /* fallback */ }
     }
@@ -40,6 +47,11 @@ function Settings({ open, onClose }) {
 
   // Maksimum RAM %60 ile sınırlandırılıyor
   const maxSlider = Math.max(Math.floor(totalRam * 0.6), 2);
+
+  const handleSaveAndClose = () => {
+    localStorage.setItem('spelium_ram', allocatedRam);
+    onClose();
+  };
 
   return (
     <AnimatePresence>
@@ -143,7 +155,7 @@ function Settings({ open, onClose }) {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={onClose}
+                onClick={handleSaveAndClose}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-sp-blue to-sp-blue-light text-white font-semibold text-sm transition-shadow hover:shadow-blue-glow"
               >
                 Kaydet ve Kapat

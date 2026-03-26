@@ -11,11 +11,8 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const os = require('os');
 const { login, logout, checkSession, saveSession, loadSession, clearSession } = require('./auth');
-const { launchMinecraft, getOptimalRam, getSystemInfo } = require('./launcher');
+const { launchMinecraft, getSystemInfo, getGameDirectory } = require('./launcher');
 const { checkAndPatchFiles } = require('./patcher');
-
-// .spelium ana klasörü
-const TEOWARE_DIR = path.join(os.homedir(), '.spelium');
 
 let mainWindow = null;
 
@@ -148,16 +145,16 @@ ipcMain.handle('auth:logout', async () => {
  * Oyunu başlat
  * Dosya kontrolü → Patching → Minecraft Launch
  */
-ipcMain.handle('game:launch', async (event, { playerName, sessionToken }) => {
+ipcMain.handle('game:launch', async (event, { username, token, ram }) => {
   try {
-    // Adım 1: Dosyaları kontrol et ve güncelle
+    // Adım 1: Dosyaları kontrol et ve güncelle (İsteğe bağlı)
     mainWindow?.webContents.send('game:status', { 
       status: 'checking', 
       message: 'Dosyalar kontrol ediliyor...',
       progress: 0 
     });
 
-    const patchResult = await checkAndPatchFiles(TEOWARE_DIR, (progress) => {
+    const patchResult = await checkAndPatchFiles(getGameDirectory(), (progress) => {
       mainWindow?.webContents.send('game:status', {
         status: 'patching',
         message: progress.message,
@@ -169,14 +166,14 @@ ipcMain.handle('game:launch', async (event, { playerName, sessionToken }) => {
       return { success: false, error: patchResult.error };
     }
 
-    // Adım 2: Minecraft'ı başlat
+    // Adım 2: Minecraft'ı başlat (MCLC)
     mainWindow?.webContents.send('game:status', { 
       status: 'launching', 
       message: 'Oyun başlatılıyor...',
       progress: 100 
     });
 
-    const launchResult = await launchMinecraft(TEOWARE_DIR, playerName, sessionToken);
+    const launchResult = await launchMinecraft(username, token, ram, mainWindow);
     return launchResult;
   } catch (error) {
     console.error('[Game] Başlatma hatası:', error.message);

@@ -179,7 +179,10 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
 
     try {
       if (window.spelium) {
-        const result = await window.spelium.game.launch(playerName, sessionToken);
+        // RAM değerini localStorage'dan al, yoksa 4GB varsay
+        const ramGB = parseInt(localStorage.getItem('spelium_ram') || '4', 10);
+        
+        const result = await window.spelium.game.launch(playerName, sessionToken, ramGB);
         if (result.success) {
           setGameStatus('playing');
           setStatusMessage('Oyun başlatıldı!');

@@ -251,7 +251,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
     <div className="h-full flex flex-col relative overflow-hidden">
       {/* ── KUSURSUZ MERKEZLİ LOGO (TÜM GÖVDEYE GÖRE) ── */}
       <div className="absolute top-6 left-0 w-full flex justify-center pointer-events-none z-[100]">
-        <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
+        <img src={speliumLogo} alt="Spelium" className="h-[115px] object-contain drop-shadow-gold-glow pointer-events-auto" />
       </div>
 
       {/* ===== Arka plan efektleri ===== */}

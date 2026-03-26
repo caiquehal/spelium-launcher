@@ -34,13 +34,13 @@ contextBridge.exposeInMainWorld('spelium', {
     logout: () => ipcRenderer.invoke('auth:logout'),
   },
 
-  // =============================================
-  // Oyun Yönetimi
-  // =============================================
   game: {
     /** Oyunu başlat */
     launch: (username, token, ram) =>
       ipcRenderer.invoke('game:launch', { username, token, ram }),
+
+    /** Bozulan oyun dosyalarını silip sıfırdan indirmesi için komut */
+    forceReset: () => ipcRenderer.invoke('game:force-reset'),
 
     /** Oyun durumu güncellemelerini dinle */
     onStatus: (callback) => {

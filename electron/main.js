@@ -10,6 +10,7 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
 const { login, logout, checkSession, saveSession, loadSession, clearSession } = require('./auth');
 const { launchMinecraft, getSystemInfo, getGameDirectory } = require('./launcher');
 const { checkAndPatchFiles } = require('./patcher');
@@ -140,6 +141,27 @@ ipcMain.handle('auth:logout', async () => {
 // =============================================
 // IPC HANDLERS - Oyun Başlatma
 // =============================================
+
+/**
+ * Bozuk oyun dosyalarını sil
+ */
+ipcMain.handle('game:force-reset', async () => {
+  try {
+    const gameDir = getGameDirectory();
+    const foldersToWipe = ['versions', 'libraries', 'assets', 'natives', 'mods', 'resourcepacks'];
+    
+    for (const folder of foldersToWipe) {
+      const folderPath = path.join(gameDir, folder);
+      if (fs.existsSync(folderPath)) {
+        fs.rmSync(folderPath, { recursive: true, force: true });
+      }
+    }
+    return { success: true };
+  } catch (error) {
+    console.error('[Game] Force Reset hatası:', error.message);
+    return { success: false, error: error.message };
+  }
+});
 
 /**
  * Oyunu başlat

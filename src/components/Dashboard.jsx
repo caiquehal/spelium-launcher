@@ -351,56 +351,76 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
           </motion.div>
 
           {/* ── OYNA Butonu ── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.35, type: 'spring', stiffness: 180, damping: 18 }}
-            className="relative mb-4"
-          >
-            {/* Dış glow */}
-            <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-sp-gold-dark to-sp-gold blur-xl transition-opacity duration-700 ${
-              !isRunning ? 'opacity-35 animate-pulse-gold' : 'opacity-0'
-            }`} />
-
-            <motion.button
-              onClick={handlePlay}
-              disabled={isRunning}
-              whileHover={!isRunning ? { scale: 1.06 } : {}}
-              whileTap={!isRunning ? { scale: 0.94 } : {}}
-              className={`relative z-10 py-4.5 rounded-2xl font-display font-black text-xl tracking-[0.15em] transition-all duration-500 ${
-                isRunning
-                  ? 'bg-sp-surface text-sp-text-muted cursor-wait border border-sp-border'
-                  : 'bg-gradient-to-r from-sp-gold-dark via-sp-gold to-sp-gold-light text-sp-bg-dark hover:shadow-gold-intense border border-sp-gold-light/30'
-              }`}
-              style={!isRunning 
-                ? { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' } 
-                : { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' }
-              }
+          <div className="flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.35, type: 'spring', stiffness: 180, damping: 18 }}
+              className="relative mb-2"
             >
-              {gameStatus === 'idle' && 'OYNA'}
-              {gameStatus === 'checking' && (
-                <span className="flex items-center gap-3 text-sp-text-dim">
-                  <div className="w-5 h-5 border-2 border-sp-gold/30 border-t-sp-gold rounded-full animate-spin" />
-                  Kontrol Ediliyor...
-                </span>
-              )}
-              {gameStatus === 'patching' && (
-                <span className="flex items-center gap-3 text-sp-text-dim">
-                  <div className="w-5 h-5 border-2 border-sp-blue-glow/30 border-t-sp-blue-glow rounded-full animate-spin" />
-                  Güncelleniyor...
-                </span>
-              )}
-              {gameStatus === 'launching' && (
-                <span className="flex items-center gap-3 text-sp-text-dim">
-                  <div className="w-5 h-5 border-2 border-sp-gold/30 border-t-sp-gold rounded-full animate-spin" />
-                  Başlatılıyor...
-                </span>
-              )}
-              {gameStatus === 'playing' && (
-                <span className="text-green-400">✓ Oyun Açıldı</span>
-              )}
+              {/* Dış glow */}
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-sp-gold-dark to-sp-gold blur-xl transition-opacity duration-700 ${
+                !isRunning ? 'opacity-35 animate-pulse-gold' : 'opacity-0'
+              }`} />
+
+              <motion.button
+                onClick={handlePlay}
+                disabled={isRunning}
+                whileHover={!isRunning ? { scale: 1.06 } : {}}
+                whileTap={!isRunning ? { scale: 0.94 } : {}}
+                className={`relative z-10 py-4.5 rounded-2xl font-display font-black text-xl tracking-[0.15em] transition-all duration-500 ${
+                  isRunning
+                    ? 'bg-sp-surface text-sp-text-muted cursor-wait border border-sp-border'
+                    : 'bg-gradient-to-r from-sp-gold-dark via-sp-gold to-sp-gold-light text-sp-bg-dark hover:shadow-gold-intense border border-sp-gold-light/30'
+                }`}
+                style={!isRunning 
+                  ? { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' } 
+                  : { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' }
+                }
+              >
+                {gameStatus === 'idle' && 'OYNA'}
+                {gameStatus === 'checking' && (
+                  <span className="flex items-center gap-3 text-sp-text-dim">
+                    <div className="w-5 h-5 border-2 border-sp-gold/30 border-t-sp-gold rounded-full animate-spin" />
+                    Kontrol Ediliyor...
+                  </span>
+                )}
+                {gameStatus === 'patching' && (
+                  <span className="flex items-center gap-3 text-sp-text-dim">
+                    <div className="w-5 h-5 border-2 border-sp-blue-glow/30 border-t-sp-blue-glow rounded-full animate-spin" />
+                    Güncelleniyor...
+                  </span>
+                )}
+                {gameStatus === 'launching' && (
+                  <span className="flex items-center gap-3 text-sp-text-dim">
+                    <div className="w-5 h-5 border-2 border-sp-gold/30 border-t-sp-gold rounded-full animate-spin" />
+                    Başlatılıyor...
+                  </span>
+                )}
+                {gameStatus === 'playing' && (
+                  <span className="text-green-400">✓ Oyun Açıldı</span>
+                )}
+              </motion.button>
+            </motion.div>
+
+            {/* Force Reset Tuşu */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              onClick={async () => {
+                if (window.confirm("Bütün oyun modları ve kaynak dosyaları tamamen silinip sıfırdan indirilecek. Onaylıyor musunuz?")) {
+                  if (window.spelium) {
+                    await window.spelium.game.forceReset();
+                    alert("Dosyalar başarıyla temizlendi! Oyunu sıfırdan kurmak için 'OYNA' tuşuna basabilirsiniz.");
+                  }
+                }
+              }}
+              className="text-[10px] text-sp-text-muted/50 hover:text-red-400 transition-colors tracking-widest uppercase mb-4 opacity-80"
+            >
+              Siyah Ekran Hatası Çözümü: Dosyaları Yeniden İndir
             </motion.button>
-          </motion.div>
+          </div>
 
           {/* ── Canlı sunucu durumu ── */}
           <motion.div

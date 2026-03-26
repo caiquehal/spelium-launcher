@@ -153,11 +153,6 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
       max: maxRam,
       min: minRam
     },
-    window: {
-      width: 1024,
-      height: 768,
-      fullscreen: false
-    },
     customArgs: customArgs
   };
 

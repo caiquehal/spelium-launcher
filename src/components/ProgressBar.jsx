@@ -23,16 +23,16 @@ function ProgressBar({ progress = 0, message = '', visible = false }) {
         >
           {/* Durum metni */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-teo-muted truncate max-w-[80%]">
+            <span className="text-xs font-medium text-spel-muted truncate max-w-[80%]">
               {message}
             </span>
-            <span className="text-xs font-mono text-teo-purple">
+            <span className="text-xs font-mono text-spel-purple">
               {Math.round(progress)}%
             </span>
           </div>
           
           {/* Progress bar */}
-          <div className="relative h-2 bg-teo-dark/80 rounded-full overflow-hidden border border-teo-border/30">
+          <div className="relative h-2 bg-spel-dark/80 rounded-full overflow-hidden border border-spel-border/30">
             <motion.div
               className="absolute inset-y-0 left-0 rounded-full"
               style={{

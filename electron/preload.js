@@ -9,7 +9,7 @@
 
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('teoware', {
+contextBridge.exposeInMainWorld('spelium', {
   // =============================================
   // Pencere Kontrolleri
   // =============================================

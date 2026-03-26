@@ -7,20 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Teoware neon theme
-        'teo-dark': '#0a0a0f',
-        'teo-darker': '#050508',
-        'teo-card': '#12121a',
-        'teo-border': '#1e1e2e',
-        'teo-surface': '#16161f',
-        'teo-purple': '#a855f7',
-        'teo-purple-dark': '#7c3aed',
-        'teo-purple-light': '#c084fc',
-        'teo-blue': '#3b82f6',
-        'teo-blue-dark': '#2563eb',
-        'teo-cyan': '#06b6d4',
-        'teo-text': '#e2e8f0',
-        'teo-muted': '#64748b',
+        // Spelium neon theme
+        'spel-dark': '#0a0a0f',
+        'spel-darker': '#050508',
+        'spel-card': '#12121a',
+        'spel-border': '#1e1e2e',
+        'spel-surface': '#16161f',
+        'spel-purple': '#a855f7',
+        'spel-purple-dark': '#7c3aed',
+        'spel-purple-light': '#c084fc',
+        'spel-blue': '#3b82f6',
+        'spel-blue-dark': '#2563eb',
+        'spel-cyan': '#06b6d4',
+        'spel-text': '#e2e8f0',
+        'spel-muted': '#64748b',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

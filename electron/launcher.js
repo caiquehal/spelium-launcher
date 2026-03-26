@@ -41,7 +41,7 @@ function getOptimalRam() {
 
 /**
  * JVM başlatma argümanlarını oluştur
- * Java 21 ZGC + Aikar's Flags + Teoware optimizasyonları
+ * Java 21 ZGC + Aikar's Flags + Spelium optimizasyonları
  * 
  * @param {number} ramMB - Ayrılacak RAM miktarı (MB)
  * @param {string} sessionToken - Güvenlik token'ı
@@ -75,9 +75,9 @@ function buildJvmArgs(ramMB, sessionToken) {
     // Networking optimizasyonu
     '-Djava.net.preferIPv4Stack=true',
 
-    // Teoware session token (sunucu tarafı doğrulama için)
-    `-Dteoware.session=${sessionToken}`,
-    `-Dteoware.version=1.0.0`,
+    // Spelium session token (sunucu tarafı doğrulama için)
+    `-Dspelium.session=${sessionToken}`,
+    `-Dspelium.version=1.0.0`,
   ];
 }
 
@@ -127,7 +127,7 @@ function findJavaPath() {
 /**
  * Minecraft'ı Fabric Loader ile başlat
  * 
- * @param {string} gameDir - .teoware oyun dizini
+ * @param {string} gameDir - .spelium oyun dizini
  * @param {string} playerName - Oyuncu adı (Offline mode)
  * @param {string} sessionToken - Güvenlik oturum token'ı
  * @returns {Promise<Object>} { success, pid, error }
@@ -177,7 +177,7 @@ async function launchMinecraft(gameDir, playerName, sessionToken) {
       '--assetIndex', MC_VERSION,
       '--accessToken', '0',           // Offline mode
       '--userType', 'legacy',
-      '--versionType', 'Teoware',
+      '--versionType', 'Spelium',
     ];
 
     // Tam komut
@@ -258,7 +258,7 @@ function getSystemInfo() {
     cpuModel: os.cpus()[0]?.model || 'Bilinmiyor',
     cpuCores: os.cpus().length,
     javaPath: javaPath,
-    gameDir: path.join(os.homedir(), '.teoware'),
+    gameDir: path.join(os.homedir(), '.spelium'),
   };
 }
 

@@ -25,8 +25,8 @@ function App() {
   useEffect(() => {
     async function checkSession() {
       try {
-        if (window.teoware) {
-          const result = await window.teoware.auth.checkSession();
+        if (window.spelium) {
+          const result = await window.spelium.auth.checkSession();
           if (result.success) {
             setPlayerName(result.playerName);
             setSessionToken(result.sessionToken);
@@ -56,8 +56,8 @@ function App() {
    */
   const handleLogout = async () => {
     try {
-      if (window.teoware) {
-        await window.teoware.auth.logout();
+      if (window.spelium) {
+        await window.spelium.auth.logout();
       }
     } catch (error) {
       console.error('Çıkış hatası:', error);
@@ -70,7 +70,7 @@ function App() {
   // Yükleniyor ekranı
   if (isLoading) {
     return (
-      <div className="h-screen w-screen flex flex-col bg-teo-dark">
+      <div className="h-screen w-screen flex flex-col bg-spel-dark">
         <TitleBar />
         <div className="flex-1 flex items-center justify-center">
           <motion.div
@@ -79,12 +79,12 @@ function App() {
             className="text-center"
           >
             {/* Logo */}
-            <h1 className="text-5xl font-display font-black bg-gradient-to-r from-teo-purple via-teo-blue to-teo-cyan bg-clip-text text-transparent neon-text mb-4">
+            <h1 className="text-5xl font-display font-black bg-gradient-to-r from-spel-purple via-spel-blue to-spel-cyan bg-clip-text text-transparent neon-text mb-4">
               TEOWARE
             </h1>
             {/* Loading spinner */}
             <div className="flex justify-center">
-              <div className="w-8 h-8 border-2 border-teo-purple/30 border-t-teo-purple rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-spel-purple/30 border-t-spel-purple rounded-full animate-spin" />
             </div>
           </motion.div>
         </div>
@@ -93,7 +93,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-teo-dark overflow-hidden">
+    <div className="h-screen w-screen flex flex-col bg-spel-dark overflow-hidden">
       {/* Özel Başlık Çubuğu */}
       <TitleBar />
 

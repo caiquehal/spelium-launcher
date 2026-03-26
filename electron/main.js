@@ -14,8 +14,8 @@ const { login, logout, checkSession, saveSession, loadSession, clearSession } = 
 const { launchMinecraft, getOptimalRam, getSystemInfo } = require('./launcher');
 const { checkAndPatchFiles } = require('./patcher');
 
-// .teoware ana klasörü
-const TEOWARE_DIR = path.join(os.homedir(), '.teoware');
+// .spelium ana klasörü
+const TEOWARE_DIR = path.join(os.homedir(), '.spelium');
 
 let mainWindow = null;
 

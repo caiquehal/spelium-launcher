@@ -16,14 +16,14 @@ const path = require('path');
 // (hostname + username hash'i → her makinede farklı anahtar)
 const MACHINE_KEY = crypto
   .createHash('sha256')
-  .update(`teoware-${os.hostname()}-${os.userInfo().username}-launcher-key`)
+  .update(`spelium-${os.hostname()}-${os.userInfo().username}-launcher-key`)
   .digest();
 
 const IV_LENGTH = 16;
 const ALGORITHM = 'aes-256-cbc';
 
 // Session dosyasının yolu
-const SESSION_FILE = path.join(os.homedir(), '.teoware', 'session.enc');
+const SESSION_FILE = path.join(os.homedir(), '.spelium', 'session.enc');
 
 /**
  * Veriyi AES-256-CBC ile şifrele

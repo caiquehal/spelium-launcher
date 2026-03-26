@@ -14,7 +14,7 @@ const path = require('path');
 const https = require('https');
 const http = require('http');
 
-const API_BASE = 'https://api.teoware.net';
+const API_BASE = 'https://api.spelium.net';
 const FILES_ENDPOINT = '/launcher/files.json';
 
 /**
@@ -122,7 +122,7 @@ function downloadFile(url, dest, onProgress = null) {
 /**
  * Dosyaları kontrol et ve güncelle
  * 
- * 1. api.teoware.net/launcher/files.json'dan güncel dosya listesini çek
+ * 1. api.spelium.net/launcher/files.json'dan güncel dosya listesini çek
  * 2. Yerel dosyaların hash'lerini kontrol et
  * 3. Eksik veya uyumsuz dosyaları indir
  * 
@@ -132,13 +132,13 @@ function downloadFile(url, dest, onProgress = null) {
  *     {
  *       "path": "mods/sodium-0.5.8.jar",
  *       "hash": "abc123...",
- *       "url": "https://cdn.teoware.net/files/mods/sodium-0.5.8.jar",
+ *       "url": "https://cdn.spelium.net/files/mods/sodium-0.5.8.jar",
  *       "size": 1234567
  *     }
  *   ]
  * }
  * 
- * @param {string} gameDir - .teoware oyun dizini
+ * @param {string} gameDir - .spelium oyun dizini
  * @param {Function} onProgress - İlerleme callback
  * @returns {Promise<Object>} { success, error }
  */

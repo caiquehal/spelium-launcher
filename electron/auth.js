@@ -3,7 +3,7 @@
  * TEOWARE LAUNCHER - Özel Kimlik Doğrulama (Auth)
  * ============================================
  * 
- * api.teoware.net ile iletişim kurar.
+ * api.spelium.net ile iletişim kurar.
  * Kullanıcı girişi, oturum kontrolü ve oturum yönetimi.
  */
 
@@ -11,7 +11,7 @@ const https = require('https');
 const http = require('http');
 const { saveToStore, loadFromStore, clearStore } = require('./store');
 
-const API_BASE = 'https://api.teoware.net';
+const API_BASE = 'https://api.spelium.net';
 
 /**
  * API'ye HTTP isteği gönder
@@ -32,7 +32,7 @@ function apiRequest(endpoint, method = 'POST', body = null) {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'TeowareLauncher/1.0',
+        'User-Agent': 'SpeliumLauncher/1.0',
       },
       timeout: 10000,
     };

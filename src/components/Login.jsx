@@ -34,8 +34,8 @@ function Login({ onLogin }) {
     setIsLoading(true);
 
     try {
-      if (window.teoware) {
-        const result = await window.teoware.auth.login(username, password, rememberMe);
+      if (window.spelium) {
+        const result = await window.spelium.auth.login(username, password, rememberMe);
         if (result.success) {
           onLogin(result.playerName, result.sessionToken);
         } else {
@@ -58,8 +58,8 @@ function Login({ onLogin }) {
    * Harici link aç
    */
   const openExternal = (url) => {
-    if (window.teoware) {
-      window.teoware.app.openExternal(url);
+    if (window.spelium) {
+      window.spelium.app.openExternal(url);
     } else {
       window.open(url, '_blank');
     }
@@ -70,11 +70,11 @@ function Login({ onLogin }) {
       {/* Arka plan efektleri */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Mor gradient blob */}
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-teo-purple/10 rounded-full blur-[120px] animate-float" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-spel-purple/10 rounded-full blur-[120px] animate-float" />
         {/* Mavi gradient blob */}
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-teo-blue/10 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-spel-blue/10 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
         {/* Cyan gradient blob */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-teo-cyan/5 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-spel-cyan/5 rounded-full blur-[100px]" />
         
         {/* Grid pattern */}
         <div
@@ -100,10 +100,10 @@ function Login({ onLogin }) {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h1 className="text-6xl font-display font-black bg-gradient-to-r from-teo-purple via-teo-blue to-teo-cyan bg-clip-text text-transparent mb-2">
+          <h1 className="text-6xl font-display font-black bg-gradient-to-r from-spel-purple via-spel-blue to-spel-cyan bg-clip-text text-transparent mb-2">
             TEOWARE
           </h1>
-          <p className="text-teo-muted text-sm tracking-widest uppercase font-medium">
+          <p className="text-spel-muted text-sm tracking-widest uppercase font-medium">
             Minecraft Launcher
           </p>
         </motion.div>
@@ -132,11 +132,11 @@ function Login({ onLogin }) {
 
             {/* Kullanıcı adı */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-teo-muted" htmlFor="username">
+              <label className="text-sm font-medium text-spel-muted" htmlFor="username">
                 Kullanıcı Adı
               </label>
               <div className="relative">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-teo-muted">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-spel-muted">
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
                   </svg>
@@ -148,7 +148,7 @@ function Login({ onLogin }) {
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Kullanıcı adını gir"
                   disabled={isLoading}
-                  className="w-full bg-teo-dark/60 border border-teo-border/50 rounded-xl pl-11 pr-4 py-3 text-teo-text placeholder-teo-muted/50 focus:border-teo-purple/50 focus:ring-1 focus:ring-teo-purple/30 transition-all duration-300 disabled:opacity-50"
+                  className="w-full bg-spel-dark/60 border border-spel-border/50 rounded-xl pl-11 pr-4 py-3 text-spel-text placeholder-spel-muted/50 focus:border-spel-purple/50 focus:ring-1 focus:ring-spel-purple/30 transition-all duration-300 disabled:opacity-50"
                   autoComplete="off"
                   spellCheck="false"
                 />
@@ -157,11 +157,11 @@ function Login({ onLogin }) {
 
             {/* Şifre */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-teo-muted" htmlFor="password">
+              <label className="text-sm font-medium text-spel-muted" htmlFor="password">
                 Şifre
               </label>
               <div className="relative">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-teo-muted">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-spel-muted">
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                   </svg>
@@ -173,13 +173,13 @@ function Login({ onLogin }) {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Şifreni gir"
                   disabled={isLoading}
-                  className="w-full bg-teo-dark/60 border border-teo-border/50 rounded-xl pl-11 pr-12 py-3 text-teo-text placeholder-teo-muted/50 focus:border-teo-purple/50 focus:ring-1 focus:ring-teo-purple/30 transition-all duration-300 disabled:opacity-50"
+                  className="w-full bg-spel-dark/60 border border-spel-border/50 rounded-xl pl-11 pr-12 py-3 text-spel-text placeholder-spel-muted/50 focus:border-spel-purple/50 focus:ring-1 focus:ring-spel-purple/30 transition-all duration-300 disabled:opacity-50"
                 />
                 {/* Şifreyi göster/gizle */}
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-teo-muted hover:text-teo-text transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-spel-muted hover:text-spel-text transition-colors"
                 >
                   {showPassword ? (
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -208,8 +208,8 @@ function Login({ onLogin }) {
                   />
                   <div className={`w-5 h-5 rounded-md border-2 transition-all duration-300 flex items-center justify-center ${
                     rememberMe 
-                      ? 'bg-teo-purple border-teo-purple' 
-                      : 'border-teo-border group-hover:border-teo-purple/50'
+                      ? 'bg-spel-purple border-spel-purple' 
+                      : 'border-spel-border group-hover:border-spel-purple/50'
                   }`}>
                     {rememberMe && (
                       <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
@@ -218,15 +218,15 @@ function Login({ onLogin }) {
                     )}
                   </div>
                 </div>
-                <span className="text-sm text-teo-muted group-hover:text-teo-text transition-colors">
+                <span className="text-sm text-spel-muted group-hover:text-spel-text transition-colors">
                   Beni Hatırla
                 </span>
               </label>
 
               <button
                 type="button"
-                onClick={() => openExternal('https://teoware.net/forgot-password')}
-                className="text-sm text-teo-purple hover:text-teo-purple-light transition-colors"
+                onClick={() => openExternal('https://spelium.net/forgot-password')}
+                className="text-sm text-spel-purple hover:text-spel-purple-light transition-colors"
               >
                 Şifremi Unuttum
               </button>
@@ -238,7 +238,7 @@ function Login({ onLogin }) {
               disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full relative overflow-hidden bg-gradient-to-r from-teo-purple to-teo-blue text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-neon-purple disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full relative overflow-hidden bg-gradient-to-r from-spel-purple to-spel-blue text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:shadow-neon-purple disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center gap-3">
@@ -252,11 +252,11 @@ function Login({ onLogin }) {
 
             {/* Kayıt Ol */}
             <div className="text-center pt-2">
-              <span className="text-sm text-teo-muted">Hesabın yok mu? </span>
+              <span className="text-sm text-spel-muted">Hesabın yok mu? </span>
               <button
                 type="button"
-                onClick={() => openExternal('https://teoware.net/register')}
-                className="text-sm font-semibold text-teo-purple hover:text-teo-purple-light transition-colors"
+                onClick={() => openExternal('https://spelium.net/register')}
+                className="text-sm font-semibold text-spel-purple hover:text-spel-purple-light transition-colors"
               >
                 Kayıt Ol
               </button>
@@ -269,9 +269,9 @@ function Login({ onLogin }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
-          className="text-center mt-6 text-xs text-teo-muted/50"
+          className="text-center mt-6 text-xs text-spel-muted/50"
         >
-          Teoware © 2024 — Tüm hakları saklıdır.
+          Spelium © 2024 — Tüm hakları saklıdır.
         </motion.p>
       </motion.div>
     </div>

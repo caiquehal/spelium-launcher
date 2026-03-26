@@ -49,7 +49,7 @@ function NewsPanel() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await fetch('https://api.teoware.net/launcher/news');
+        const response = await fetch('https://api.spelium.net/launcher/news');
         if (response.ok) {
           const data = await response.json();
           if (data.news && data.news.length > 0) {
@@ -67,10 +67,10 @@ function NewsPanel() {
   // Haber tipi renkleri
   const getTypeBadge = (type) => {
     const badges = {
-      event: { bg: 'bg-teo-purple/20', text: 'text-teo-purple-light', label: 'Etkinlik' },
-      update: { bg: 'bg-teo-blue/20', text: 'text-teo-blue', label: 'Güncelleme' },
-      map: { bg: 'bg-teo-cyan/20', text: 'text-teo-cyan', label: 'Harita' },
-      default: { bg: 'bg-teo-muted/20', text: 'text-teo-muted', label: 'Duyuru' },
+      event: { bg: 'bg-spel-purple/20', text: 'text-spel-purple-light', label: 'Etkinlik' },
+      update: { bg: 'bg-spel-blue/20', text: 'text-spel-blue', label: 'Güncelleme' },
+      map: { bg: 'bg-spel-cyan/20', text: 'text-spel-cyan', label: 'Harita' },
+      default: { bg: 'bg-spel-muted/20', text: 'text-spel-muted', label: 'Duyuru' },
     };
     return badges[type] || badges.default;
   };
@@ -89,8 +89,8 @@ function NewsPanel() {
     <div className="h-full flex flex-col">
       {/* Başlık */}
       <div className="flex items-center gap-2 mb-3 px-1">
-        <div className="w-1.5 h-4 bg-gradient-to-b from-teo-purple to-teo-blue rounded-full" />
-        <h3 className="text-sm font-display font-semibold text-teo-text tracking-wide">
+        <div className="w-1.5 h-4 bg-gradient-to-b from-spel-purple to-spel-blue rounded-full" />
+        <h3 className="text-sm font-display font-semibold text-spel-text tracking-wide">
           HABERLER
         </h3>
       </div>
@@ -105,25 +105,25 @@ function NewsPanel() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1, duration: 0.3 }}
-              className="glass rounded-xl p-3.5 hover:border-teo-purple/30 transition-all duration-300 cursor-default group"
+              className="glass rounded-xl p-3.5 hover:border-spel-purple/30 transition-all duration-300 cursor-default group"
             >
               {/* Üst kısım: badge + tarih */}
               <div className="flex items-center justify-between mb-2">
                 <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${badge.bg} ${badge.text}`}>
                   {badge.label}
                 </span>
-                <span className="text-[10px] text-teo-muted">
+                <span className="text-[10px] text-spel-muted">
                   {formatDate(item.date)}
                 </span>
               </div>
 
               {/* Başlık */}
-              <h4 className="text-sm font-semibold text-teo-text mb-1 group-hover:text-teo-purple-light transition-colors">
+              <h4 className="text-sm font-semibold text-spel-text mb-1 group-hover:text-spel-purple-light transition-colors">
                 {item.title}
               </h4>
 
               {/* Açıklama */}
-              <p className="text-xs text-teo-muted leading-relaxed line-clamp-2">
+              <p className="text-xs text-spel-muted leading-relaxed line-clamp-2">
                 {item.description}
               </p>
             </motion.div>

@@ -23,8 +23,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
   useEffect(() => {
     async function loadSystemInfo() {
       try {
-        if (window.teoware) {
-          const info = await window.teoware.app.getSystemInfo();
+        if (window.spelium) {
+          const info = await window.spelium.app.getSystemInfo();
           setSystemInfo(info);
         }
       } catch (error) {
@@ -36,9 +36,9 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
 
   // Oyun durumu güncellemelerini dinle
   useEffect(() => {
-    if (!window.teoware) return;
+    if (!window.spelium) return;
 
-    const cleanup = window.teoware.game.onStatus((data) => {
+    const cleanup = window.spelium.game.onStatus((data) => {
       setStatusMessage(data.message || '');
       setProgress(data.progress || 0);
       
@@ -61,8 +61,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
     setProgress(0);
 
     try {
-      if (window.teoware) {
-        const result = await window.teoware.game.launch(playerName, sessionToken);
+      if (window.spelium) {
+        const result = await window.spelium.game.launch(playerName, sessionToken);
         if (result.success) {
           setGameStatus('playing');
           setStatusMessage('Oyun başlatıldı!');
@@ -124,16 +124,16 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
           ============================================ */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Karanlık mesh gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-teo-darker via-teo-dark to-teo-darker" />
+        <div className="absolute inset-0 bg-gradient-to-br from-spel-darker via-spel-dark to-spel-darker" />
         
         {/* Mor blob - sol üst */}
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-teo-purple/8 rounded-full blur-[150px] animate-float" />
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-spel-purple/8 rounded-full blur-[150px] animate-float" />
         
         {/* Mavi blob - sağ alt */}
-        <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-teo-blue/8 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
+        <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-spel-blue/8 rounded-full blur-[120px] animate-float" style={{ animationDelay: '3s' }} />
         
         {/* Merkez glow */}
-        <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teo-purple/3 rounded-full blur-[200px]" />
+        <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-spel-purple/3 rounded-full blur-[200px]" />
         
         {/* Grid overlay */}
         <div
@@ -148,7 +148,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-teo-purple/40 rounded-full"
+            className="absolute w-1 h-1 bg-spel-purple/40 rounded-full"
             style={{
               left: `${15 + i * 15}%`,
               top: `${20 + (i % 3) * 25}%`,
@@ -174,14 +174,14 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               className="flex items-center gap-3"
             >
               {/* Avatar */}
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teo-purple to-teo-blue flex items-center justify-center shadow-neon-purple">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-spel-purple to-spel-blue flex items-center justify-center shadow-neon-purple">
                 <span className="text-lg font-black text-white">
                   {playerName?.charAt(0)?.toUpperCase() || 'T'}
                 </span>
               </div>
               <div>
-                <p className="text-sm font-semibold text-teo-text">{playerName}</p>
-                <p className="text-xs text-teo-muted">Çevrimiçi</p>
+                <p className="text-sm font-semibold text-spel-text">{playerName}</p>
+                <p className="text-xs text-spel-muted">Çevrimiçi</p>
               </div>
             </motion.div>
 
@@ -192,7 +192,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="hidden md:flex items-center gap-4 text-[11px] text-teo-muted"
+                  className="hidden md:flex items-center gap-4 text-[11px] text-spel-muted"
                 >
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -203,7 +203,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               )}
               <button
                 onClick={onLogout}
-                className="text-xs text-teo-muted hover:text-red-400 transition-colors duration-200 px-3 py-1.5 rounded-lg hover:bg-red-400/10"
+                className="text-xs text-spel-muted hover:text-red-400 transition-colors duration-200 px-3 py-1.5 rounded-lg hover:bg-red-400/10"
               >
                 Çıkış Yap
               </button>
@@ -219,10 +219,10 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               transition={{ delay: 0.2 }}
               className="text-center mb-8"
             >
-              <h2 className="text-4xl md:text-5xl font-display font-black bg-gradient-to-r from-teo-purple via-teo-blue to-teo-cyan bg-clip-text text-transparent mb-2">
+              <h2 className="text-4xl md:text-5xl font-display font-black bg-gradient-to-r from-spel-purple via-spel-blue to-spel-cyan bg-clip-text text-transparent mb-2">
                 TEOWARE
               </h2>
-              <p className="text-sm text-teo-muted tracking-widest uppercase">
+              <p className="text-sm text-spel-muted tracking-widest uppercase">
                 MMORPG / Factions — 1.21.x
               </p>
             </motion.div>
@@ -235,7 +235,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               className="relative"
             >
               {/* Dış glow efekti */}
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-teo-purple to-teo-blue blur-xl transition-opacity duration-500 ${
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-spel-purple to-spel-blue blur-xl transition-opacity duration-500 ${
                 hoverPlay && !isRunning ? 'opacity-60' : 'opacity-30'
               } ${!isRunning ? 'animate-pulse-glow' : ''}`} />
               
@@ -248,26 +248,26 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
                 whileTap={!isRunning ? { scale: 0.95 } : {}}
                 className={`relative z-10 px-20 py-5 rounded-2xl font-display font-black text-2xl tracking-wider transition-all duration-500 ${
                   isRunning
-                    ? 'bg-teo-surface text-teo-muted cursor-wait border border-teo-border'
-                    : 'bg-gradient-to-r from-teo-purple to-teo-blue text-white hover:shadow-neon-glow border border-white/10'
+                    ? 'bg-spel-surface text-spel-muted cursor-wait border border-spel-border'
+                    : 'bg-gradient-to-r from-spel-purple to-spel-blue text-white hover:shadow-neon-glow border border-white/10'
                 }`}
               >
                 {gameStatus === 'idle' && 'OYNA'}
                 {gameStatus === 'checking' && (
                   <span className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-teo-purple/30 border-t-teo-purple rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-spel-purple/30 border-t-spel-purple rounded-full animate-spin" />
                     Kontrol Ediliyor...
                   </span>
                 )}
                 {gameStatus === 'patching' && (
                   <span className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-teo-blue/30 border-t-teo-blue rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-spel-blue/30 border-t-spel-blue rounded-full animate-spin" />
                     Güncelleniyor...
                   </span>
                 )}
                 {gameStatus === 'launching' && (
                   <span className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-teo-cyan/30 border-t-teo-cyan rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-spel-cyan/30 border-t-spel-cyan rounded-full animate-spin" />
                     Başlatılıyor...
                   </span>
                 )}
@@ -286,8 +286,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
               </span>
-              <span className="text-xs text-teo-muted">
-                play.teoware.net — <span className="text-green-400">Çevrimiçi</span>
+              <span className="text-xs text-spel-muted">
+                play.spelium.net — <span className="text-green-400">Çevrimiçi</span>
               </span>
             </motion.div>
           </div>
@@ -312,7 +312,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="w-72 lg:w-80 border-l border-teo-border/30 p-4 overflow-hidden"
+          className="w-72 lg:w-80 border-l border-spel-border/30 p-4 overflow-hidden"
         >
           <NewsPanel />
         </motion.div>

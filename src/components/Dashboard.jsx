@@ -21,7 +21,7 @@ import Settings from './Settings';
 import speliumLogo from '../assets/spelium.png';
 
 /* ===== Haber Slider Bileşeni ===== */
-function NewsSlider({ news }) {
+function NewsSlider({ news, onReadMore }) {
   const [current, setCurrent] = useState(0);
   const timerRef = useRef(null);
 
@@ -69,13 +69,22 @@ function NewsSlider({ news }) {
 
             {/* İçerik */}
             <div className="absolute bottom-0 left-0 right-0 p-5">
-              <div className="glass-gold rounded-xl p-4 max-w-md">
-                <h3 className="text-base font-display font-bold text-sp-text leading-tight mb-1.5">
-                  {news[current].title}
-                </h3>
-                <p className="text-xs text-sp-text-dim leading-relaxed line-clamp-2">
-                  {news[current].text}
-                </p>
+              <div className="glass-gold rounded-xl p-4 max-w-[28rem]">
+                <h3 
+                  className="text-base font-display font-bold text-sp-text leading-tight mb-1.5"
+                  dangerouslySetInnerHTML={{ __html: news[current].title }}
+                />
+                <p 
+                  className="text-xs text-sp-text-dim leading-relaxed line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: news[current].text }}
+                />
+                <button
+                  onClick={() => onReadMore(news[current])}
+                  className="mt-2 text-[10px] font-bold text-sp-gold hover:text-sp-gold-light uppercase tracking-widest transition-colors flex items-center gap-1"
+                >
+                  Devamını Oku 
+                  <span className="text-sm leading-none">&rarr;</span>
+                </button>
               </div>
             </div>
           </motion.div>
@@ -113,6 +122,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
   const [gameStatus, setGameStatus] = useState('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [progress, setProgress] = useState(0);
+  const [selectedNews, setSelectedNews] = useState(null);
 
   // Dashboard verisini çek
   useEffect(() => {
@@ -262,7 +272,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
       <div className="relative z-10 h-full flex flex-col px-6 pt-4 pb-5">
 
         {/* ── ÜST BAR ── */}
-        <div className="flex items-center justify-between mb-4 shrink-0">
+        <div className="flex items-center justify-between mb-4 shrink-0 relative">
           {/* Sol: Avatar + İsim */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -282,14 +292,14 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             </div>
           </motion.div>
 
-          {/* Orta: Logo */}
+          {/* Orta: Logo (Absolutely Centered) */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="flex-1 flex justify-center"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           >
-            <img src={speliumLogo} alt="Spelium" className="h-[72px] object-contain drop-shadow-gold-glow" />
+            <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
           </motion.div>
 
           {/* Sağ: Butonlar */}
@@ -341,7 +351,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             transition={{ delay: 0.2 }}
             className="w-full mb-6"
           >
-            <NewsSlider news={news} />
+            <NewsSlider news={news} onReadMore={(article) => setSelectedNews(article)} />
           </motion.div>
 
           {/* ── OYNA Butonu ── */}
@@ -426,6 +436,48 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
 
       {/* Settings Modal */}
       <Settings open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+
+      {/* Haber Okuma Modalı */}
+      <AnimatePresence>
+        {selectedNews && (
+          <div className="absolute inset-0 z-[60] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setSelectedNews(null)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="relative w-full max-w-2xl max-h-[85vh] bg-sp-bg border border-sp-border/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            >
+              <div className="relative w-full h-48 sm:h-64 shrink-0">
+                <img src={selectedNews.image} alt="News" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-sp-bg via-sp-bg/40 to-transparent" />
+                <button
+                  onClick={() => setSelectedNews(null)}
+                  className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/80 transition-colors backdrop-blur-md"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                </button>
+              </div>
+              <div className="px-6 pb-8 pt-2 overflow-y-auto custom-scrollbar">
+                <h2 
+                  className="text-2xl font-display font-bold text-sp-gold mb-4"
+                  dangerouslySetInnerHTML={{ __html: selectedNews.title }}
+                />
+                <div 
+                  className="text-sm text-sp-text-dim leading-relaxed space-y-4"
+                  dangerouslySetInnerHTML={{ __html: selectedNews.text.replace(/\n/g, '<br/>') }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -253,13 +253,12 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             className="flex items-center gap-3"
           >
             <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-sp-blue/50 bg-sp-card flex items-center justify-center shrink-0">
-              {avatar ? (
-                <img src={avatar} alt="avatar" className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-base font-black text-sp-gold">
-                  {playerName?.charAt(0)?.toUpperCase() || 'S'}
-                </span>
-              )}
+              <img 
+                src={avatar || `https://minotar.net/helm/${playerName || 'Steve'}/64.png`} 
+                alt="avatar" 
+                className="w-full h-full object-cover"
+                onError={(e) => { e.target.src = 'https://minotar.net/helm/Steve/64.png'; }}
+              />
             </div>
             <div>
               <p className="text-xs text-sp-text-muted">Hoş geldin,</p>

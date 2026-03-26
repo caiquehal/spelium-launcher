@@ -12,9 +12,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // Performans profilleri
 const PROFILES = [
-  { id: 'fps',       label: 'FPS Modu',       icon: '⚡', rd: 6,  desc: 'Düşük görüş, maksimum FPS' },
+  { id: 'fps',       label: 'Yüksek Performans',       icon: '⚡', rd: 6,  desc: 'Düşük görüş, maksimum FPS' },
   { id: 'balanced',  label: 'Dengeli',         icon: '⚖️', rd: 12, desc: 'Dengeli performans ve görünüm' },
-  { id: 'cinematic', label: 'Sinematik',       icon: '🎬', rd: 24, desc: 'Yüksek görüş, sinematik deneyim' },
+  { id: 'cinematic', label: 'Yüksek Kalite',       icon: '🎬', rd: 24, desc: 'Yüksek görüş, sinematik deneyim' },
 ];
 
 function Settings({ open, onClose }) {
@@ -38,7 +38,8 @@ function Settings({ open, onClose }) {
     if (open) load();
   }, [open]);
 
-  const maxSlider = Math.max(totalRam - 2, 4);
+  // Maksimum RAM %60 ile sınırlandırılıyor
+  const maxSlider = Math.max(Math.floor(totalRam * 0.6), 2);
 
   return (
     <AnimatePresence>
@@ -101,8 +102,7 @@ function Settings({ open, onClose }) {
                 />
                 <div className="flex justify-between mt-1.5">
                   <span className="text-[10px] text-sp-text-muted">2 GB</span>
-                  <span className="text-[10px] text-sp-text-muted">Sistem: {totalRam} GB</span>
-                  <span className="text-[10px] text-sp-text-muted">{maxSlider} GB</span>
+                  <span className="text-[10px] text-sp-text-muted">Maksimum (%60): {maxSlider} GB</span>
                 </div>
               </div>
 
@@ -124,10 +124,9 @@ function Settings({ open, onClose }) {
                         }`}
                       >
                         <div className="text-xl mb-1.5">{p.icon}</div>
-                        <div className={`text-xs font-semibold mb-0.5 ${active ? 'text-sp-gold-light' : 'text-sp-text'}`}>
+                        <div className={`text-[11px] font-semibold ${active ? 'text-sp-gold-light' : 'text-sp-text'}`}>
                           {p.label}
                         </div>
-                        <div className="text-[10px] text-sp-text-muted">RD: {p.rd}</div>
                         {active && (
                           <motion.div
                             layoutId="profile-indicator"

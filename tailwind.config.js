@@ -7,47 +7,64 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Spelium neon theme
-        'spel-dark': '#0a0a0f',
-        'spel-darker': '#050508',
-        'spel-card': '#12121a',
-        'spel-border': '#1e1e2e',
-        'spel-surface': '#16161f',
-        'spel-purple': '#a855f7',
-        'spel-purple-dark': '#7c3aed',
-        'spel-purple-light': '#c084fc',
-        'spel-blue': '#3b82f6',
-        'spel-blue-dark': '#2563eb',
-        'spel-cyan': '#06b6d4',
-        'spel-text': '#e2e8f0',
-        'spel-muted': '#64748b',
+        // Spelium Dark Mythic Theme
+        'sp-bg': '#1A1A1A',
+        'sp-bg-dark': '#111111',
+        'sp-bg-light': '#222222',
+        'sp-card': '#1E1E24',
+        'sp-card-hover': '#26262E',
+        'sp-border': '#2A2A35',
+        'sp-surface': '#202028',
+
+        // Deep Night Blue
+        'sp-blue': '#1E3A5F',
+        'sp-blue-light': '#2B5A8F',
+        'sp-blue-glow': '#3B7DD8',
+        'sp-blue-bright': '#5BA0E8',
+
+        // Rich Gold
+        'sp-gold': '#D4A843',
+        'sp-gold-light': '#E8C45A',
+        'sp-gold-dark': '#B8922F',
+        'sp-gold-dim': '#9A7B28',
+
+        // Text
+        'sp-text': '#E8E8EC',
+        'sp-text-dim': '#9A9AAA',
+        'sp-text-muted': '#5A5A6A',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'neon-purple': '0 0 20px rgba(168, 85, 247, 0.4), 0 0 60px rgba(168, 85, 247, 0.15)',
-        'neon-blue': '0 0 20px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.15)',
-        'neon-glow': '0 0 30px rgba(168, 85, 247, 0.5), 0 0 80px rgba(59, 130, 246, 0.2)',
+        'gold-glow': '0 0 25px rgba(212, 168, 67, 0.35), 0 0 60px rgba(212, 168, 67, 0.12)',
+        'gold-intense': '0 0 40px rgba(212, 168, 67, 0.5), 0 0 100px rgba(212, 168, 67, 0.2)',
+        'blue-glow': '0 0 20px rgba(59, 125, 216, 0.3), 0 0 50px rgba(59, 125, 216, 0.1)',
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.4)',
       },
       animation: {
-        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'pulse-gold': 'pulseGold 2.5s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
-        'shimmer': 'shimmer 2s linear infinite',
+        'shimmer': 'shimmer 2.5s linear infinite',
+        'slide-in': 'slideIn 0.5s ease-out',
       },
       keyframes: {
-        pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(168, 85, 247, 0.4), 0 0 60px rgba(168, 85, 247, 0.15)' },
-          '50%': { boxShadow: '0 0 40px rgba(168, 85, 247, 0.6), 0 0 100px rgba(168, 85, 247, 0.3)' },
+        pulseGold: {
+          '0%, 100%': { boxShadow: '0 0 25px rgba(212, 168, 67, 0.35), 0 0 60px rgba(212, 168, 67, 0.12)' },
+          '50%': { boxShadow: '0 0 50px rgba(212, 168, 67, 0.55), 0 0 120px rgba(212, 168, 67, 0.25)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
+          '50%': { transform: 'translateY(-8px)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
+        },
+        slideIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

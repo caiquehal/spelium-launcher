@@ -1,11 +1,8 @@
 /**
  * ============================================
- * TEOWARE LAUNCHER - Ana Uygulama Bileşeni
+ * SPELIUM LAUNCHER - Ana Uygulama Bileşeni
  * ============================================
- * 
  * Auth durumuna göre Login veya Dashboard gösterir.
- * Frameless pencere için özel TitleBar içerir.
- * Framer Motion ile sayfa geçiş animasyonları.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -15,18 +12,16 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
 function App() {
-  // Auth durumu
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [playerName, setPlayerName] = useState('');
   const [sessionToken, setSessionToken] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Uygulama açılışında kayıtlı oturumu kontrol et
   useEffect(() => {
     async function checkSession() {
       try {
-        if (window.spelium) {
-          const result = await window.spelium.auth.checkSession();
+        if (window.teoware) {
+          const result = await window.teoware.auth.checkSession();
           if (result.success) {
             setPlayerName(result.playerName);
             setSessionToken(result.sessionToken);
@@ -42,26 +37,16 @@ function App() {
     checkSession();
   }, []);
 
-  /**
-   * Giriş başarılı olduğunda çağrılır
-   */
   const handleLogin = (name, token) => {
     setPlayerName(name);
     setSessionToken(token);
     setIsLoggedIn(true);
   };
 
-  /**
-   * Çıkış yap
-   */
   const handleLogout = async () => {
     try {
-      if (window.spelium) {
-        await window.spelium.auth.logout();
-      }
-    } catch (error) {
-      console.error('Çıkış hatası:', error);
-    }
+      if (window.teoware) await window.teoware.auth.logout();
+    } catch {}
     setIsLoggedIn(false);
     setPlayerName('');
     setSessionToken('');
@@ -70,22 +55,14 @@ function App() {
   // Yükleniyor ekranı
   if (isLoading) {
     return (
-      <div className="h-screen w-screen flex flex-col bg-spel-dark">
+      <div className="h-screen w-screen flex flex-col bg-sp-bg">
         <TitleBar />
         <div className="flex-1 flex items-center justify-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center"
-          >
-            {/* Logo */}
-            <h1 className="text-5xl font-display font-black bg-gradient-to-r from-spel-purple via-spel-blue to-spel-cyan bg-clip-text text-transparent neon-text mb-4">
-              TEOWARE
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
+            <h1 className="text-4xl font-display font-black bg-gradient-to-r from-sp-gold via-sp-gold-light to-sp-gold bg-clip-text text-transparent mb-4">
+              SPELIUM
             </h1>
-            {/* Loading spinner */}
-            <div className="flex justify-center">
-              <div className="w-8 h-8 border-2 border-spel-purple/30 border-t-spel-purple rounded-full animate-spin" />
-            </div>
+            <div className="w-7 h-7 border-2 border-sp-gold/30 border-t-sp-gold rounded-full animate-spin mx-auto" />
           </motion.div>
         </div>
       </div>
@@ -93,23 +70,17 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-spel-dark overflow-hidden">
-      {/* Özel Başlık Çubuğu */}
+    <div className="h-screen w-screen flex flex-col bg-sp-bg overflow-hidden">
       <TitleBar />
-
-      {/* İçerik Alanı */}
       <div className="flex-1 relative overflow-hidden">
-        {/* Arka plan mesh efekti */}
-        <div className="absolute inset-0 bg-mesh pointer-events-none" />
-
         <AnimatePresence mode="wait">
           {!isLoggedIn ? (
             <motion.div
               key="login"
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+              exit={{ opacity: 0, x: 40 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
               className="h-full"
             >
               <Login onLogin={handleLogin} />
@@ -117,17 +88,13 @@ function App() {
           ) : (
             <motion.div
               key="dashboard"
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
               className="h-full"
             >
-              <Dashboard
-                playerName={playerName}
-                sessionToken={sessionToken}
-                onLogout={handleLogout}
-              />
+              <Dashboard playerName={playerName} sessionToken={sessionToken} onLogout={handleLogout} />
             </motion.div>
           )}
         </AnimatePresence>

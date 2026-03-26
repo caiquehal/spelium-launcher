@@ -14,7 +14,7 @@ const path = require('path');
 const https = require('https');
 const http = require('http');
 
-const API_BASE = 'https://api.spelium.net';
+const API_BASE = 'https://spelium.com';
 const FILES_ENDPOINT = '/launcher/files.json';
 
 /**

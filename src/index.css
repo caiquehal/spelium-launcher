@@ -5,7 +5,8 @@
 @tailwind utilities;
 
 /* ============================================
-   TEOWARE LAUNCHER - Global Stiller
+   SPELIUM LAUNCHER - Global Stiller
+   Karanlık Mitoloji / MMORPG Teması
    ============================================ */
 
 * {
@@ -19,146 +20,113 @@ html, body, #root {
   height: 100%;
   overflow: hidden;
   font-family: 'Inter', system-ui, sans-serif;
-  background-color: #0a0a0f;
-  color: #e2e8f0;
+  background-color: #1A1A1A;
+  color: #E8E8EC;
 }
 
 /* Özel Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #1A1A1A;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #2a2a3a;
+  background: #2A2A35;
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #a855f7;
+  background: #D4A843;
 }
 
 /* Seçim rengi */
 ::selection {
-  background: rgba(168, 85, 247, 0.3);
+  background: rgba(212, 168, 67, 0.3);
   color: #fff;
 }
 
 /* ============================================
    Glassmorphism Yardımcıları
    ============================================ */
-
 @layer utilities {
   .glass {
-    background: rgba(18, 18, 26, 0.7);
+    background: rgba(30, 30, 36, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .glass-strong {
+    background: rgba(26, 26, 30, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-gold {
+    background: rgba(30, 30, 36, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(168, 85, 247, 0.1);
-  }
-
-  .glass-strong {
-    background: rgba(18, 18, 26, 0.85);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(168, 85, 247, 0.15);
-  }
-
-  .neon-text {
-    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 30px rgba(168, 85, 247, 0.2);
-  }
-
-  .neon-border {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3), inset 0 0 15px rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(212, 168, 67, 0.12);
   }
 }
 
 /* ============================================
-   Animasyonlar
+   Arka Plan & Animasyonlar
    ============================================ */
-
-@keyframes backgroundPan {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes neonFlicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes particleFloat {
-  0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  50% { transform: translateY(-100px) translateX(50px) scale(1.5); }
-}
-
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-.animate-bg-pan {
-  animation: backgroundPan 15s ease-in-out infinite;
-  background-size: 200% 200%;
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  50% { transform: translateY(-120px) translateX(40px); }
 }
 
-.animate-gradient-shift {
-  animation: gradientShift 8s ease-in-out infinite;
-  background-size: 300% 300%;
-}
-
-/* ============================================
-   Arka Plan Efektleri
-   ============================================ */
-
-.bg-mesh {
+.bg-mesh-dark {
   background-image:
-    radial-gradient(at 20% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-    radial-gradient(at 80% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+    radial-gradient(at 15% 25%, rgba(30, 58, 95, 0.18) 0%, transparent 55%),
+    radial-gradient(at 85% 75%, rgba(212, 168, 67, 0.06) 0%, transparent 55%),
+    radial-gradient(at 50% 50%, rgba(30, 58, 95, 0.05) 0%, transparent 60%);
 }
 
-/* Input focus efekti */
-input:focus {
-  outline: none;
-}
-
-/* Buton hover glow efekti */
-.btn-glow {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-glow::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(45deg, #a855f7, #3b82f6, #06b6d4, #a855f7);
-  background-size: 400% 400%;
-  animation: gradientShift 4s ease-in-out infinite;
-  border-radius: inherit;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.btn-glow:hover::before {
-  opacity: 1;
-}
-
-/* Title bar drag bölgesi */
+/* Drag region */
 .drag-region {
   -webkit-app-region: drag;
   app-region: drag;
 }
-
 .no-drag {
   -webkit-app-region: no-drag;
   app-region: no-drag;
+}
+
+/* Input focus */
+input:focus, input[type="range"]:focus {
+  outline: none;
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #2A2A35;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D4A843, #E8C45A);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212, 168, 67, 0.4);
+  border: 2px solid #1A1A1A;
+  transition: transform 0.15s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
 }

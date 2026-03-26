@@ -155,8 +155,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
 
   // Oyun durum dinleyicisi
   useEffect(() => {
-    if (!window.teoware) return;
-    const cleanup = window.teoware.game.onStatus((data) => {
+    if (!window.spelium) return;
+    const cleanup = window.spelium.game.onStatus((data) => {
       setStatusMessage(data.message || '');
       setProgress(data.progress || 0);
       if (data.status === 'checking') setGameStatus('checking');
@@ -174,8 +174,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
     setProgress(0);
 
     try {
-      if (window.teoware) {
-        const result = await window.teoware.game.launch(playerName, sessionToken);
+      if (window.spelium) {
+        const result = await window.spelium.game.launch(playerName, sessionToken);
         if (result.success) {
           setGameStatus('playing');
           setStatusMessage('Oyun başlatıldı!');
@@ -210,7 +210,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
   }, [gameStatus, playerName, sessionToken]);
 
   const openExternal = (url) => {
-    if (window.teoware) window.teoware.app.openExternal(url);
+    if (window.spelium) window.spelium.app.openExternal(url);
     else window.open(url, '_blank');
   };
 

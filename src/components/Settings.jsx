@@ -26,8 +26,8 @@ function Settings({ open, onClose }) {
   useEffect(() => {
     async function load() {
       try {
-        if (window.teoware) {
-          const info = await window.teoware.app.getSystemInfo();
+        if (window.spelium) {
+          const info = await window.spelium.app.getSystemInfo();
           const total = parseFloat(info.totalRam);
           setTotalRam(Math.floor(total));
           const allocated = parseFloat(info.allocatedRam);

@@ -27,8 +27,8 @@ function Login({ onLogin }) {
 
     setIsLoading(true);
     try {
-      if (window.teoware) {
-        const result = await window.teoware.auth.login(username, password, rememberMe);
+      if (window.spelium) {
+        const result = await window.spelium.auth.login(username, password, rememberMe);
         if (result.success) {
           onLogin(result.playerName, result.sessionToken);
         } else {
@@ -45,7 +45,7 @@ function Login({ onLogin }) {
   };
 
   const openExternal = (url) => {
-    if (window.teoware) window.teoware.app.openExternal(url);
+    if (window.spelium) window.spelium.app.openExternal(url);
     else window.open(url, '_blank');
   };
 

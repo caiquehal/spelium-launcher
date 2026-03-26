@@ -8,8 +8,8 @@
 import React from 'react';
 
 function TitleBar() {
-  const handleMinimize = () => window.teoware?.window.minimize();
-  const handleClose = () => window.teoware?.window.close();
+  const handleMinimize = () => window.spelium?.window.minimize();
+  const handleClose = () => window.spelium?.window.close();
 
   return (
     <div className="drag-region h-9 flex items-center justify-between px-4 bg-sp-bg-dark/95 border-b border-sp-border/40 z-50 shrink-0">

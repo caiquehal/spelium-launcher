@@ -20,8 +20,8 @@ function App() {
   useEffect(() => {
     async function checkSession() {
       try {
-        if (window.teoware) {
-          const result = await window.teoware.auth.checkSession();
+        if (window.spelium) {
+          const result = await window.spelium.auth.checkSession();
           if (result.success) {
             setPlayerName(result.playerName);
             setSessionToken(result.sessionToken);
@@ -45,7 +45,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      if (window.teoware) await window.teoware.auth.logout();
+      if (window.spelium) await window.spelium.auth.logout();
     } catch {}
     setIsLoggedIn(false);
     setPlayerName('');

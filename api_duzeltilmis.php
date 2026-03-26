@@ -34,7 +34,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_dashboard_data') {
     }
 
     // 2. Oyuncu Avatarını Çek
-    $avatarUrl = "https://minotar.net/helm/Steve/64.png"; 
+    $avatarUrl = "https://mc-heads.net/avatar/Steve/100"; 
     if (!empty($username)) {
         $stmtUser = $pdo->prepare("SELECT imageAvatar FROM accounts WHERE username = ?");
         $stmtUser->execute([$username]);
@@ -43,7 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_dashboard_data') {
         if ($userRowAcc && !empty($userRowAcc['imageAvatar']) && $userRowAcc['imageAvatar'] !== '-') {
             $avatarUrl = "https://spelium.com/" . $userRowAcc['imageAvatar'];
         } else {
-            $avatarUrl = "https://minotar.net/helm/" . $username . "/64.png";
+            $avatarUrl = "https://mc-heads.net/avatar/" . $username . "/100";
         }
     }
 

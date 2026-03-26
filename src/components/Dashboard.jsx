@@ -254,10 +254,14 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
           >
             <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-sp-blue/50 bg-sp-card flex items-center justify-center shrink-0">
               <img 
-                src={avatar || `https://minotar.net/helm/${playerName || 'Steve'}/64.png`} 
+                src={avatar || `https://mc-heads.net/avatar/${playerName || 'Steve'}/100`} 
                 alt="avatar" 
-                className="w-full h-full object-cover"
-                onError={(e) => { e.target.src = 'https://minotar.net/helm/Steve/64.png'; }}
+                className="w-full h-full object-cover rendering-pixelated"
+                onError={(e) => { 
+                  if (!e.target.src.includes('Steve')) {
+                    e.target.src = 'https://mc-heads.net/avatar/Steve/100'; 
+                  }
+                }}
               />
             </div>
             <div>
@@ -391,14 +395,13 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               )}
               <span className={`relative inline-flex rounded-full h-2 w-2 ${serverOnline ? 'bg-green-400' : 'bg-red-400'}`} />
             </span>
-            <span className="text-xs text-sp-text-muted font-mono">
-              mc.spelium.com —{' '}
+            <span className="text-[11px] font-semibold text-sp-text-muted/80 tracking-wide uppercase">
               {onlinePlayers !== null ? (
-                <span className={serverOnline ? 'text-green-400' : 'text-red-400'}>
-                  {serverOnline ? `${onlinePlayers} Oyuncu Çevrimiçi` : 'Çevrimdışı'}
+                <span className={serverOnline ? 'text-green-400/90 font-bold tracking-wider' : 'text-red-400/90'}>
+                  {serverOnline ? `Aktif Oyuncu: ${onlinePlayers}` : 'Sunucu Çevrimdışı'}
                 </span>
               ) : (
-                <span className="text-sp-text-muted">Yükleniyor...</span>
+                <span className="text-sp-text-muted tracking-wider">Bağlanılıyor...</span>
               )}
             </span>
           </motion.div>

@@ -73,6 +73,15 @@ function apiRequest(endpoint, method = 'POST', body = null) {
  * @returns {Promise<Object>} { success, sessionToken, playerName, error }
  */
 async function login(username, password) {
+  // Demo User Bypass
+  if (username === 'test' && password === 'test') {
+    return {
+      success: true,
+      sessionToken: 'demo-token-' + Date.now(),
+      playerName: 'DemoPlayer',
+    };
+  }
+
   try {
     const response = await apiRequest('/auth/login', 'POST', { username, password });
     

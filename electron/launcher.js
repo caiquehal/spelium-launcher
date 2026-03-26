@@ -11,6 +11,44 @@ const { Client, Authenticator } = require('minecraft-launcher-core');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
+
+/**
+ * Fabric mod yükleyici profili (JSON) kurulu değilse indirir.
+ * Bu sayede minecraft-launcher-core otomatik olarak Fabric kütüphanelerini indirebilir.
+ */
+async function ensureFabricProfile(gameDir, customVersion) {
+  return new Promise((resolve) => {
+    const versionDir = path.join(gameDir, 'versions', customVersion);
+    const jsonPath = path.join(versionDir, `${customVersion}.json`);
+    
+    if (fs.existsSync(jsonPath)) {
+      return resolve(true);
+    }
+
+    if (!fs.existsSync(versionDir)) {
+      fs.mkdirSync(versionDir, { recursive: true });
+    }
+
+    const url = 'https://meta.fabricmc.net/v2/versions/loader/1.21/0.16.0/profile/json';
+    
+    https.get(url, (res) => {
+      if (res.statusCode !== 200) {
+        console.error('[Fabric] Meta API 200 dönmedi:', res.statusCode);
+        return resolve(false);
+      }
+      const file = fs.createWriteStream(jsonPath);
+      res.pipe(file);
+      file.on('finish', () => {
+        file.close();
+        resolve(true);
+      });
+    }).on('error', (err) => {
+      console.error('[Fabric] İndirme hatası:', err.message);
+      resolve(false);
+    });
+  });
+}
 
 /**
  * İşletim sistemine uygun oyun dizini döndürür.
@@ -89,15 +127,19 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
 
   /*
    * Eğer ".spelium/versions/fabric-loader-0.16.0-1.21" adlı bir klasör(oyun) varsa onu başlatacak.
-   * Yoksa "1.21" sürümünü baz alarak vanilla kurup başlatacak (çünkü MCLC Fabric'i otomatik kurmaz).
+   * Yoksa Fabric Meta API üzerinden JSON'u çekip oluşturacak.
    */
   let customVersion = 'fabric-loader-0.16.0-1.21';
-  let isCustom = false;
   
-  const customJsonPath = path.join(gameDir, 'versions', customVersion, `${customVersion}.json`);
-  if (fs.existsSync(customJsonPath)) {
-    isCustom = true;
-  }
+  // Fabric profilini doğrula / indir
+  const sendStatus = (status, progress = 0, message = '') => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('game:status', { status, progress, message });
+    }
+  };
+
+  sendStatus('checking', 10, 'Fabric profil dosyaları denetleniyor...');
+  const isCustom = await ensureFabricProfile(gameDir, customVersion);
 
   const opts = {
     clientPackage: null,
@@ -115,12 +157,8 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
     customArgs: customArgs
   };
 
-  // ----- MCLC EVENT İZLEYİCİLERİ -----
-  const sendStatus = (status, progress = 0, message = '') => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('game:status', { status, progress, message });
-    }
-  };
+  // Daha önce tanımlandı (yukarı taşındı)
+  // const sendStatus = ...
 
   launcher.on('debug', (e) => {
     console.log('[MCLC Debug]', e);

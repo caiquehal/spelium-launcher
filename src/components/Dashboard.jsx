@@ -179,6 +179,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
       if (data.status === 'checking') setGameStatus('checking');
       else if (data.status === 'patching') setGameStatus('patching');
       else if (data.status === 'launching') setGameStatus('launching');
+      else if (data.status === 'idle') setGameStatus('idle');
     });
     return cleanup;
   }, []);
@@ -198,9 +199,9 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
         const result = await window.spelium.game.launch(playerName, sessionToken, ramGB);
         if (result.success) {
           setGameStatus('playing');
-          setStatusMessage('Oyun başlatıldı!');
+          setStatusMessage('Oyun çalışıyor...');
           setProgress(100);
-          setTimeout(() => { setGameStatus('idle'); setStatusMessage(''); setProgress(0); }, 3000);
+          window.spelium.window.minimize();
         } else {
           setStatusMessage(result.error || 'Oyun başlatılamadı.');
           setTimeout(() => { setGameStatus('idle'); setStatusMessage(''); setProgress(0); }, 4000);
@@ -270,14 +271,9 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
           >
             <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-sp-blue/50 bg-sp-card flex items-center justify-center shrink-0">
               <img 
-                src={avatar || `https://mc-heads.net/avatar/${playerName || 'Steve'}/100`} 
+                src={`https://minotar.net/helm/${playerName || 'Steve'}/100.png`} 
                 alt="avatar" 
                 className="w-full h-full object-cover rendering-pixelated"
-                onError={(e) => { 
-                  if (!e.target.src.includes('Steve')) {
-                    e.target.src = 'https://mc-heads.net/avatar/Steve/100'; 
-                  }
-                }}
               />
             </div>
             <div>
@@ -291,8 +287,9 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
+            className="flex-1 flex justify-center"
           >
-            <img src={speliumLogo} alt="Spelium" className="h-[48px] object-contain drop-shadow-gold-glow" />
+            <img src={speliumLogo} alt="Spelium" className="h-[72px] object-contain drop-shadow-gold-glow" />
           </motion.div>
 
           {/* Sağ: Butonlar */}

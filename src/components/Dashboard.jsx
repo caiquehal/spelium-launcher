@@ -271,23 +271,14 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
       {/* ===== İÇERİK ===== */}
       <div className="relative z-10 h-full flex flex-col px-6 pt-4 pb-5">
 
-        {/* ── KUSURSUZ MERKEZLİ LOGO ── */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1 }}
-          className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
-        >
-          <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
-        </motion.div>
-
-        {/* ── ÜST BAR ── */}
-        <div className="flex items-center justify-between mb-4 shrink-0 relative">
+        {/* ── ÜST BAR (Absolute Grid) ── */}
+        <div className="relative w-full h-12 mb-4 shrink-0 flex items-center">
+          
           {/* Sol: Avatar + İsim */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-3"
+            className="absolute left-0 flex items-center gap-3"
           >
             <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-sp-blue/50 bg-sp-card flex items-center justify-center shrink-0">
               <img 
@@ -302,14 +293,21 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             </div>
           </motion.div>
 
-          {/* Orta boşluk (Logo yukarıda absolute) */}
-          <div className="flex-1" />
+          {/* Orta: Logo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-50 flex justify-center"
+          >
+            <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
+          </motion.div>
 
           {/* Sağ: Butonlar */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2"
+            className="absolute right-0 flex items-center gap-2"
           >
             <button
               onClick={() => openExternal('https://spelium.com')}

@@ -184,7 +184,7 @@ function Login({ onLogin }) {
                 </div>
                 <span className="text-[11px] text-sp-text-muted group-hover:text-sp-text-dim transition-colors">Beni Hatırla</span>
               </label>
-              <button type="button" onClick={() => openExternal('https://spelium.com/forgot-password')} className="text-[11px] text-sp-blue-bright hover:text-sp-blue-glow transition-colors">
+              <button type="button" onClick={() => openExternal('https://spelium.com/sifremi-unuttum')} className="text-[11px] text-sp-blue-bright hover:text-sp-blue-glow transition-colors">
                 Şifremi Unuttum
               </button>
             </div>

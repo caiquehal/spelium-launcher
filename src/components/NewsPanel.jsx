@@ -49,7 +49,7 @@ function NewsPanel() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await fetch('https://api.spelium.net/launcher/news');
+        const response = await fetch('https://api.spelium.com/launcher/news');
         if (response.ok) {
           const data = await response.json();
           if (data.news && data.news.length > 0) {

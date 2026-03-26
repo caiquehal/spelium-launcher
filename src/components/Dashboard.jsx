@@ -11,7 +11,7 @@
  *  Alt Orta → Altın OYNA butonu
  *  En Alt   → Canlı oyuncu sayısı (mcsrvstat.us API)
  *
- * Veri Çekme: spelium.net/api.php?action=get_dashboard_data
+ * Veri Çekme: spelium.com/api.php?action=get_dashboard_data
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
@@ -117,7 +117,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
   useEffect(() => {
     async function fetchDashboard() {
       try {
-        const res = await fetch('https://spelium.net/api.php?action=get_dashboard_data');
+        const res = await fetch('https://spelium.com/api.php?action=get_dashboard_data');
         const data = await res.json();
         if (data.status === 'success') {
           if (data.avatar) setAvatar(data.avatar);
@@ -281,7 +281,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             className="flex items-center gap-2"
           >
             <button
-              onClick={() => openExternal('https://spelium.net')}
+              onClick={() => openExternal('https://spelium.com')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium text-sp-text-dim hover:text-sp-text hover:bg-sp-card transition-all duration-200 border border-sp-border/40 hover:border-sp-blue/40"
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -122,7 +122,7 @@ function downloadFile(url, dest, onProgress = null) {
 /**
  * Dosyaları kontrol et ve güncelle
  * 
- * 1. api.spelium.net/launcher/files.json'dan güncel dosya listesini çek
+ * 1. api.spelium.com/launcher/files.json'dan güncel dosya listesini çek
  * 2. Yerel dosyaların hash'lerini kontrol et
  * 3. Eksik veya uyumsuz dosyaları indir
  * 
@@ -132,7 +132,7 @@ function downloadFile(url, dest, onProgress = null) {
  *     {
  *       "path": "mods/sodium-0.5.8.jar",
  *       "hash": "abc123...",
- *       "url": "https://cdn.spelium.net/files/mods/sodium-0.5.8.jar",
+ *       "url": "https://cdn.spelium.com/files/mods/sodium-0.5.8.jar",
  *       "size": 1234567
  *     }
  *   ]

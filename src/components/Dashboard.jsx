@@ -117,7 +117,11 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
   useEffect(() => {
     async function fetchDashboard() {
       try {
-        const res = await fetch('https://spelium.com/api.php?action=get_dashboard_data');
+        const url = playerName 
+          ? `https://spelium.com/api.php?action=get_dashboard_data&username=${encodeURIComponent(playerName)}`
+          : `https://spelium.com/api.php?action=get_dashboard_data`;
+        
+        const res = await fetch(url);
         const data = await res.json();
         if (data.status === 'success') {
           if (data.avatar) setAvatar(data.avatar);

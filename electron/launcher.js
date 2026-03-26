@@ -37,11 +37,24 @@ async function ensureFabricProfile(gameDir, customVersion) {
         console.error('[Fabric] Meta API 200 dönmedi:', res.statusCode);
         return resolve(false);
       }
-      const file = fs.createWriteStream(jsonPath);
-      res.pipe(file);
-      file.on('finish', () => {
-        file.close();
-        resolve(true);
+      
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const profile = JSON.parse(data);
+          
+          // KULLANICI İSTEĞİ: mixinextras indirmesini engelle
+          if (profile.libraries && Array.isArray(profile.libraries)) {
+            profile.libraries = profile.libraries.filter(lib => !lib.name.includes('mixinextras'));
+          }
+
+          fs.writeFileSync(jsonPath, JSON.stringify(profile, null, 2), 'utf-8');
+          resolve(true);
+        } catch (err) {
+          console.error('[Fabric] JSON işleme hatası:', err.message);
+          resolve(false);
+        }
       });
     }).on('error', (err) => {
       console.error('[Fabric] İndirme hatası:', err.message);

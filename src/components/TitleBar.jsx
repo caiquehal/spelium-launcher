@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import speliumLogo from '../assets/spelium.png';
 
 function TitleBar() {
   const handleMinimize = () => window.spelium?.window.minimize();
@@ -15,8 +16,8 @@ function TitleBar() {
     <div className="drag-region h-9 flex items-center justify-between px-4 bg-sp-bg-dark/95 border-b border-sp-border/40 z-50 shrink-0">
       {/* Sol: Logo */}
       <div className="flex items-center gap-2.5">
-        <div className="w-5 h-5 rounded bg-gradient-to-br from-sp-gold to-sp-gold-dark flex items-center justify-center shadow-sm">
-          <span className="text-[9px] font-black text-sp-bg-dark">S</span>
+        <div className="w-5 h-5 flex items-center justify-center drop-shadow-md">
+          <img src={speliumLogo} alt="Spelium" className="w-full h-full object-contain" />
         </div>
         <span className="text-[11px] font-display font-semibold text-sp-text-dim tracking-[0.15em] uppercase">
           Spelium Launcher

@@ -18,6 +18,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProgressBar from './ProgressBar';
 import Settings from './Settings';
+import speliumLogo from '../assets/spelium.png';
 
 /* ===== Haber Slider Bileşeni ===== */
 function NewsSlider({ news }) {
@@ -124,7 +125,19 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
         const res = await fetch(url);
         const data = await res.json();
         if (data.status === 'success') {
-          if (data.avatar) setAvatar(data.avatar);
+          if (data.avatar) {
+            let finalAvatar = data.avatar;
+            // Eğer avatar bir HTML string ise (özel Minexon sistemi çekiyorsa) URL'yi ayıkla
+            if (finalAvatar.includes('<')) {
+              const urlMatch = finalAvatar.match(/url\(['"]?(.*?)['"]?\)/) || finalAvatar.match(/src=['"](.*?)['"]/);
+              if (urlMatch && urlMatch[1]) {
+                finalAvatar = urlMatch[1].startsWith('http') ? urlMatch[1] : `https://spelium.com${urlMatch[1]}`;
+              } else {
+                finalAvatar = ''; // Çıkarılamazsa hata vermesin, mc-heads fallback yapsın
+              }
+            }
+            if (finalAvatar) setAvatar(finalAvatar);
+          }
           if (data.news) setNews(data.news);
         }
       } catch (err) {
@@ -279,9 +292,7 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <h1 className="text-2xl font-display font-black tracking-wider bg-gradient-to-r from-sp-gold via-sp-gold-light to-sp-gold bg-clip-text text-transparent">
-              SPELIUM
-            </h1>
+            <img src={speliumLogo} alt="Spelium" className="h-[48px] object-contain drop-shadow-gold-glow" />
           </motion.div>
 
           {/* Sağ: Butonlar */}

@@ -138,12 +138,25 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
     const total = e.total || 0;
     const percent = total > 0 ? Math.round((current / total) * 100) : 0;
     
-    sendStatus('patching', percent, `${e.type.toUpperCase()}: ${e.name} indiriliyor...`);
+    // Kullanıcı dostu çeviri
+    let partName = e.type === 'assets' ? 'Oyun Varlıkları'
+                 : e.type === 'classes' ? 'Ana Dosyalar'
+                 : e.type === 'libraries' ? 'Kütüphaneler'
+                 : e.type === 'natives' ? 'Yerel Dosyalar'
+                 : 'Bileşenler';
+
+    sendStatus('patching', percent, `${partName} yükleniyor...`);
   });
 
   launcher.on('progress', (e) => {
-    // e = { type: 'classes', task: 50, total: 100 } vs
-    sendStatus('patching', Math.round((e.task / e.total) * 100), `${e.type} indiriliyor...`);
+    // e = { type: 'classes', task: 50, total: 100 }
+    let partName = e.type === 'assets' ? 'Oyun Varlıkları'
+                 : e.type === 'classes' ? 'Ana Dosyalar'
+                 : e.type === 'libraries' ? 'Kütüphaneler'
+                 : e.type === 'natives' ? 'Yerel Dosyalar'
+                 : 'Bileşenler';
+
+    sendStatus('patching', Math.round((e.task / e.total) * 100), `${partName} indiriliyor...`);
   });
 
   launcher.on('close', (e) => {

@@ -100,18 +100,17 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
 
   // JVM Argümanları (Performans & Spelium Token)
   const customArgs = [
-    // Z Garbage Collector (Java 21+ Düşük gecikme)
-    '-XX:+UseZGC',
-    '-XX:+ZGenerational',
+    // Standart G1GC (ZGC bazı sistemlerde OpenGL siyah ekran sorununa yol açar)
+    '-XX:+UseG1GC',
+    '-XX:+UnlockExperimentalVMOptions',
+    '-XX:G1NewSizePercent=20',
+    '-XX:G1ReservePercent=20',
+    '-XX:MaxGCPauseMillis=50',
+    '-XX:G1HeapRegionSize=32M',
 
     // Aikar's Flags (Maksimum performans)
     '-XX:+AlwaysPreTouch',
     '-XX:+DisableExplicitGC',
-    '-XX:+ParallelRefProcEnabled',
-    '-XX:+PerfDisableSharedMem',
-    '-XX:+UnlockExperimentalVMOptions',
-    '-XX:ZCollectionInterval=5',
-    '-XX:ZFragmentationLimit=10',
 
     // Networking
     '-Djava.net.preferIPv4Stack=true',
@@ -153,6 +152,11 @@ async function launchMinecraft(username, token, ramGB, mainWindow) {
     memory: {
       max: maxRam,
       min: minRam
+    },
+    window: {
+      width: 1024,
+      height: 768,
+      fullscreen: false
     },
     customArgs: customArgs
   };

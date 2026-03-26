@@ -56,26 +56,29 @@ function Settings({ open, onClose }) {
   return (
     <AnimatePresence>
       {open && (
-        <>
+        <motion.div
+          key="settings-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-6"
+        >
           {/* Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
             onClick={onClose}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 20 }}
+            initial={{ scale: 0.92, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.92, y: 20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+            className="relative glass-strong rounded-2xl w-full max-w-lg shadow-glass p-6"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="glass-strong rounded-2xl w-full max-w-lg mx-6 p-6 pointer-events-auto shadow-glass">
+            <div>
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -162,7 +165,7 @@ function Settings({ open, onClose }) {
               </motion.button>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );

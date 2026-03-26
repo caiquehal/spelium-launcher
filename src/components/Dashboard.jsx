@@ -271,6 +271,16 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
       {/* ===== İÇERİK ===== */}
       <div className="relative z-10 h-full flex flex-col px-6 pt-4 pb-5">
 
+        {/* ── KUSURSUZ MERKEZLİ LOGO ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="absolute top-4 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
+        >
+          <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
+        </motion.div>
+
         {/* ── ÜST BAR ── */}
         <div className="flex items-center justify-between mb-4 shrink-0 relative">
           {/* Sol: Avatar + İsim */}
@@ -292,15 +302,8 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
             </div>
           </motion.div>
 
-          {/* Orta: Logo (Absolutely Centered) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          >
-            <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
-          </motion.div>
+          {/* Orta boşluk (Logo yukarıda absolute) */}
+          <div className="flex-1" />
 
           {/* Sağ: Butonlar */}
           <motion.div

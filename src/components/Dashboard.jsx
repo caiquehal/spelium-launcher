@@ -249,6 +249,11 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
 
   return (
     <div className="h-full flex flex-col relative overflow-hidden">
+      {/* ── KUSURSUZ MERKEZLİ LOGO (TÜM GÖVDEYE GÖRE) ── */}
+      <div className="absolute top-6 left-0 w-full flex justify-center pointer-events-none z-[100]">
+        <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
+      </div>
+
       {/* ===== Arka plan efektleri ===== */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-sp-bg" />
@@ -291,16 +296,6 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               <p className="text-xs text-sp-text-muted">Hoş geldin,</p>
               <p className="text-sm font-semibold text-sp-text">{playerName}</p>
             </div>
-          </motion.div>
-
-          {/* Orta: Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-50 flex justify-center"
-          >
-            <img src={speliumLogo} alt="Spelium" className="h-[76px] object-contain drop-shadow-gold-glow pointer-events-auto" />
           </motion.div>
 
           {/* Sağ: Butonlar */}
@@ -372,12 +367,15 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
               disabled={isRunning}
               whileHover={!isRunning ? { scale: 1.06 } : {}}
               whileTap={!isRunning ? { scale: 0.94 } : {}}
-              className={`relative z-10 px-24 py-4.5 rounded-2xl font-display font-black text-xl tracking-[0.15em] transition-all duration-500 ${
+              className={`relative z-10 py-4.5 rounded-2xl font-display font-black text-xl tracking-[0.15em] transition-all duration-500 ${
                 isRunning
                   ? 'bg-sp-surface text-sp-text-muted cursor-wait border border-sp-border'
                   : 'bg-gradient-to-r from-sp-gold-dark via-sp-gold to-sp-gold-light text-sp-bg-dark hover:shadow-gold-intense border border-sp-gold-light/30'
               }`}
-              style={!isRunning ? { paddingTop: '1.125rem', paddingBottom: '1.125rem' } : { paddingTop: '1.125rem', paddingBottom: '1.125rem' }}
+              style={!isRunning 
+                ? { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' } 
+                : { paddingLeft: 'calc(6rem + 0.15em)', paddingRight: '6rem', paddingTop: '1.125rem', paddingBottom: '1.125rem' }
+              }
             >
               {gameStatus === 'idle' && 'OYNA'}
               {gameStatus === 'checking' && (

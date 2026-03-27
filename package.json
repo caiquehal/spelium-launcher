@@ -2,11 +2,11 @@
   "name": "spelium-launcher",
   "version": "1.0.0",
   "description": "Spelium - Profesyonel Minecraft MMORPG Launcher",
-  "main": "electron/main.js",
   "scripts": {
-    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "build": "vite build",
-    "dist": "vite build && electron-builder",
+    "dev": "tauri dev",
+    "dev:frontend": "vite",
+    "build": "tauri build",
+    "build:frontend": "vite build",
     "preview": "vite preview"
   },
   "author": "Spelium",
@@ -14,40 +14,17 @@
   "dependencies": {
     "axios": "^1.7.0",
     "crypto-js": "^4.2.0",
-    "framer-motion": "^11.0.0",
-    "minecraft-launcher-core": "^3.18.2"
+    "framer-motion": "^11.0.0"
   },
   "devDependencies": {
+    "@tauri-apps/api": "^2.5.0",
+    "@tauri-apps/cli": "^2.5.0",
     "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.4.19",
-    "concurrently": "^8.2.2",
-    "electron": "^30.0.0",
-    "electron-builder": "^24.13.0",
     "postcss": "^8.4.38",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.4",
-    "vite": "^5.4.0",
-    "wait-on": "^7.2.0"
-  },
-  "build": {
-    "appId": "net.spelium.launcher",
-    "productName": "Spelium Launcher",
-    "directories": {
-      "output": "release"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "public/icon.png"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    },
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "public/**/*"
-    ]
+    "vite": "^5.4.0"
   }
 }

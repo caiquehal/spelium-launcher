@@ -20,13 +20,13 @@ function App() {
   useEffect(() => {
     async function checkSession() {
       try {
-        if (window.spelium) {
-          const result = await window.spelium.auth.checkSession();
-          if (result.success) {
-            setPlayerName(result.playerName);
-            setSessionToken(result.sessionToken);
-            setIsLoggedIn(true);
-          }
+        const token = localStorage.getItem('spelium_session');
+        const pName = localStorage.getItem('spelium_player');
+        
+        if (token && pName) {
+          setPlayerName(pName);
+          setSessionToken(token);
+          setIsLoggedIn(true);
         }
       } catch (error) {
         console.error('Oturum kontrolü hatası:', error);
@@ -44,9 +44,8 @@ function App() {
   };
 
   const handleLogout = async () => {
-    try {
-      if (window.spelium) await window.spelium.auth.logout();
-    } catch {}
+    localStorage.removeItem('spelium_session');
+    localStorage.removeItem('spelium_player');
     setIsLoggedIn(false);
     setPlayerName('');
     setSessionToken('');

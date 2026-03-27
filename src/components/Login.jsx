@@ -27,26 +27,37 @@ function Login({ onLogin }) {
 
     setIsLoading(true);
     try {
-      if (window.spelium) {
-        const result = await window.spelium.auth.login(username, password, rememberMe);
-        if (result.success) {
-          onLogin(result.playerName, result.sessionToken);
-        } else {
-          setError(result.error || 'Giriş başarısız.');
+      const response = await fetch('https://spelium.com/api.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        const token = data.token || 'session-token';
+        const pName = data.username || username;
+        if (rememberMe) {
+          localStorage.setItem('spelium_session', token);
+          localStorage.setItem('spelium_player', pName);
         }
+        onLogin(pName, token);
       } else {
-        setTimeout(() => onLogin(username, 'dev-token-' + Date.now()), 800);
+        setError(data.message || 'Giriş başarısız!');
       }
-    } catch {
-      setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Sunucuya bağlanılamadı. Lütfen tekrar deneyin.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const openExternal = (url) => {
-    if (window.spelium) window.spelium.app.openExternal(url);
-    else window.open(url, '_blank');
+    window.open(url, '_blank');
   };
 
   return (

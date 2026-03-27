@@ -1,0 +1,27 @@
+{
+  "productName": "Spelium Launcher",
+  "version": "1.0.0",
+  "identifier": "com.spelium.launcher",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "npm run dev:frontend",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Spelium Launcher",
+        "width": 1000,
+        "height": 650,
+        "decorations": false,
+        "resizable": false,
+        "transparent": true,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

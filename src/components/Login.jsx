@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { open } from '@tauri-apps/plugin-shell';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -56,8 +57,12 @@ function Login({ onLogin }) {
     }
   };
 
-  const openExternal = (url) => {
-    window.open(url, '_blank');
+  const openExternal = async (url) => {
+    try {
+      await open(url);
+    } catch (err) {
+      console.error('URL açılamadı:', err);
+    }
   };
 
   return (
@@ -221,7 +226,7 @@ function Login({ onLogin }) {
             {/* Kayıt Ol */}
             <div className="text-center pt-1">
               <span className="text-[11px] text-sp-text-muted">Hesabın yok mu? </span>
-              <button type="button" onClick={() => openExternal('https://spelium.com/register')} className="text-[11px] font-semibold text-sp-gold hover:text-sp-gold-light transition-colors">
+              <button type="button" onClick={() => openExternal('https://spelium.com/kayit-ol')} className="text-[11px] font-semibold text-sp-gold hover:text-sp-gold-light transition-colors">
                 Kayıt Ol
               </button>
             </div>

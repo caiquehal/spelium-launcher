@@ -18,6 +18,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
+import { open } from '@tauri-apps/plugin-shell';
 import ProgressBar from './ProgressBar';
 import Settings from './Settings';
 import speliumLogo from '../assets/spelium.png';
@@ -274,8 +275,12 @@ function Dashboard({ playerName, sessionToken, onLogout }) {
     }
   }, [gameStatus, playerName, sessionToken]);
 
-  const openExternal = (url) => {
-    window.open(url, '_blank');
+  const openExternal = async (url) => {
+    try {
+      await open(url);
+    } catch (err) {
+      console.error('URL açılamadı:', err);
+    }
   };
 
   const isRunning = gameStatus !== 'idle';

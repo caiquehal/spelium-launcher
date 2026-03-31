@@ -456,6 +456,7 @@ fn restore_window(app_handle: AppHandle) {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
         .setup(|app| {
             // Pencere Boyutlandırma ve Gösterme Mantığı
             if let Some(window) = app.get_webview_window("main") {

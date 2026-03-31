@@ -1,4 +1,4 @@
-// Bu dosya, eski electron process veya ipcRenderer yerine gecer
+// Spelium Tauri Native Köprüsü
 // Spelium Tauri 'Dumb Client' Entegrasyonu
 
 import { invoke } from '@tauri-apps/api/core';

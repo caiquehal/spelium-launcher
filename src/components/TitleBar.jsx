@@ -6,11 +6,19 @@
  */
 
 import React from 'react';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import speliumLogo from '../assets/spelium.png';
 
 function TitleBar() {
-  const handleMinimize = () => window.spelium?.window.minimize();
-  const handleClose = () => window.spelium?.window.close();
+  const handleMinimize = () => getCurrentWindow().minimize();
+  const handleClose = () => {
+    const behavior = localStorage.getItem('spelium_close_behavior') || 'tray';
+    if (behavior === 'close') {
+      getCurrentWindow().close();
+    } else {
+      getCurrentWindow().hide();
+    }
+  };
 
   return (
     <div className="drag-region h-9 flex items-center justify-between px-4 bg-sp-bg-dark/95 border-b border-sp-border/40 z-50 shrink-0">

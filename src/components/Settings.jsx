@@ -4,11 +4,12 @@
  * ============================================
  *
  * RAM slider, Performans profilleri (FPS / Dengeli / Sinematik).
- * Ayarlar Electron store üzerinden kalıcı saklanır.
+ * Ayarlar localStorage üzerinden kalıcı saklanır.
  */
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { invoke } from '@tauri-apps/api/core';
 
 // Performans profilleri
 const PROFILES = [
@@ -21,26 +22,29 @@ function Settings({ open, onClose }) {
   const [totalRam, setTotalRam] = useState(16);
   const [allocatedRam, setAllocatedRam] = useState(4);
   const [profile, setProfile] = useState('balanced');
+  const [closeBehavior, setCloseBehavior] = useState('tray');
 
   // Sistem bilgisini çek
   useEffect(() => {
     async function load() {
       try {
-        if (window.spelium) {
-          const info = await window.spelium.app.getSystemInfo();
-          const total = parseFloat(info.totalRam);
-          setTotalRam(Math.floor(total));
-          
-          // localStorage'dan oku veya varsayılan (sistemin %40'ı civarı)
-          const savedRam = localStorage.getItem('spelium_ram');
-          if (savedRam) {
-            setAllocatedRam(parseInt(savedRam, 10));
-          } else {
-            const defaultRam = Math.floor(total * 0.4);
-            setAllocatedRam(Math.max(defaultRam, 2));
-          }
+        const totalRaw = await invoke('get_total_ram');
+        const total = parseFloat(totalRaw);
+        setTotalRam(Math.floor(total));
+        
+        // localStorage'dan oku veya varsayılan (sistemin %40'ı civarı)
+        const savedRam = localStorage.getItem('spelium_ram');
+        if (savedRam) {
+          setAllocatedRam(parseInt(savedRam, 10));
+        } else {
+          const defaultRam = Math.floor(total * 0.4);
+          setAllocatedRam(Math.max(defaultRam, 2));
         }
-      } catch { /* fallback */ }
+      } catch (e) { 
+        console.error("RAM bilgisi alinamadi:", e);
+      }
+      const savedBehavior = localStorage.getItem('spelium_close_behavior') || 'tray';
+      setCloseBehavior(savedBehavior);
     }
     if (open) load();
   }, [open]);
@@ -50,6 +54,7 @@ function Settings({ open, onClose }) {
 
   const handleSaveAndClose = () => {
     localStorage.setItem('spelium_ram', allocatedRam);
+    localStorage.setItem('spelium_close_behavior', closeBehavior);
     onClose();
   };
 
@@ -60,23 +65,19 @@ function Settings({ open, onClose }) {
           key="settings-backdrop"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6"
+          exit={{ opacity: 0, pointerEvents: 'none' }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm cursor-pointer"
+          onClick={onClose}
         >
-          {/* Overlay */}
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
-            onClick={onClose}
-          />
-
           {/* Modal */}
           <motion.div
             initial={{ scale: 0.92, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.92, y: 20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative glass-strong rounded-2xl w-full max-w-lg shadow-glass p-6"
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="relative glass-strong rounded-2xl w-full max-w-lg shadow-glass p-6 cursor-default max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
           >
             <div>
               {/* Header */}
@@ -151,6 +152,59 @@ function Settings({ open, onClose }) {
                       </motion.button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* Kapatma Butonu Davranışı */}
+              <div className="mb-6">
+                <label className="text-sm font-semibold text-sp-text-dim block mb-3">Kapatma Butonu Davranışı</label>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => setCloseBehavior('tray')}
+                    className={`relative rounded-xl p-3.5 text-center transition-all duration-300 border ${
+                      closeBehavior === 'tray'
+                        ? 'bg-sp-gold/10 border-sp-gold/40 shadow-gold-glow'
+                        : 'glass border-sp-border/30 hover:border-sp-blue/30 hover:bg-sp-card-hover'
+                    }`}
+                  >
+                    <div className="text-xl mb-1.5">🗕</div>
+                    <div className={`text-[11px] font-semibold ${closeBehavior === 'tray' ? 'text-sp-gold-light' : 'text-sp-text'}`}>
+                      Tepsiye Küçült
+                    </div>
+                    <div className={`text-[10px] mt-0.5 ${closeBehavior === 'tray' ? 'text-sp-gold/70' : 'text-sp-text-muted'}`}>
+                      Arka planda çalışmaya devam et
+                    </div>
+                    {closeBehavior === 'tray' && (
+                      <motion.div
+                        layoutId="close-indicator"
+                        className="absolute -top-1 -right-1 w-3 h-3 bg-sp-gold rounded-full border-2 border-sp-bg"
+                      />
+                    )}
+                  </motion.button>
+                  <motion.button
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => setCloseBehavior('close')}
+                    className={`relative rounded-xl p-3.5 text-center transition-all duration-300 border ${
+                      closeBehavior === 'close'
+                        ? 'bg-sp-gold/10 border-sp-gold/40 shadow-gold-glow'
+                        : 'glass border-sp-border/30 hover:border-sp-blue/30 hover:bg-sp-card-hover'
+                    }`}
+                  >
+                    <div className="text-xl mb-1.5">✕</div>
+                    <div className={`text-[11px] font-semibold ${closeBehavior === 'close' ? 'text-sp-gold-light' : 'text-sp-text'}`}>
+                      Uygulamayı Kapat
+                    </div>
+                    <div className={`text-[10px] mt-0.5 ${closeBehavior === 'close' ? 'text-sp-gold/70' : 'text-sp-text-muted'}`}>
+                      Tamamen sonlandır
+                    </div>
+                    {closeBehavior === 'close' && (
+                      <motion.div
+                        layoutId="close-indicator"
+                        className="absolute -top-1 -right-1 w-3 h-3 bg-sp-gold rounded-full border-2 border-sp-bg"
+                      />
+                    )}
+                  </motion.button>
                 </div>
               </div>
 

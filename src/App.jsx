@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { invoke } from '@tauri-apps/api/core';
 import TitleBar from './components/TitleBar';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -32,6 +33,10 @@ function App() {
         console.error('Oturum kontrolü hatası:', error);
       } finally {
         setIsLoading(false);
+        // React'in DOM'u çizmesi için ufak bir pay bırakıp native pencereyi "şak" diye açıyoruz
+        setTimeout(() => {
+          invoke('restore_window');
+        }, 100);
       }
     }
     checkSession();

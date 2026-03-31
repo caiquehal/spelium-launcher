@@ -1,5 +1,5 @@
 /**
- * TEOWARE LAUNCHER - React Entry Point
+ * SPELIUM LAUNCHER - React Entry Point
  */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
